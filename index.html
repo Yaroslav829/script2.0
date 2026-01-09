@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script 1.0 — Твій старт</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. НАЛАШТУВАННЯ --- */
+        :root {
+            --bg-color: #050505;
+            --accent: #ff4500;
+            --accent-glow: rgba(255, 69, 0, 0.6);
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 40px; /* Місце під таймер */
+        }
+
+        /* Анімований фон (Floating Orbs) */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #ff4500; top: 10%; left: -10%; opacity: 0.2; }
+        .orb-2 { width: 400px; height: 400px; background: #3300ff; bottom: 10%; right: -10%; opacity: 0.15; animation-duration: 15s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* --- 2. TIMER BAR (ТЕРМІНОВІСТЬ) --- */
+        .timer-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #ff4500, #ff0055);
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.3);
+        }
+
+        /* --- 3. HERO SECTION & PRODUCT CARD --- */
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ВІЗУАЛІЗАЦІЯ ТОВАРУ (PRODUCT CARD) */
+        .product-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            max-width: 400px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .product-card::before {
+            content: 'PDF + ACCESS';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--accent);
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 10px 0;
+        }
+        
+        .old-price {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: #777;
+            margin-right: 10px;
+        }
+
+        /* КНОПКА */
+        .btn-main {
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 60px; /* Ширша кнопка */
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 0 25px var(--accent-glow);
+            transition: 0.3s;
+            display: inline-block;
+            animation: pulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 50px var(--accent-glow);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 69, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
+        }
+
+        /* --- 4. GRID SECTIONS --- */
+        section { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-box {
+            background: rgba(255,255,255,0.03);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .feature-box h3 { color: var(--accent); margin-bottom: 10px; }
+
+        /* --- 5. FAQ --- */
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+        }
+        .faq-question {
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            color: #aaa;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+        .faq-item.active .faq-answer { max-height: 150px; }
+        .faq-item.active .faq-question { color: var(--accent); }
+
+        /* --- 6. SPOILER / NOTIFICATIONS --- */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #111;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(200%);
+            transition: transform 0.5s ease;
+            z-index: 999;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .notification.show { transform: translateX(0); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .btn-main { width: 100%; padding: 20px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="timer-bar">
+        🔥 Знижка зникає через: <span id="timer">14:59</span>
+    </div>
+
+    <header>
+        <div style="margin-top: 40px;">
+            <span style="color: #aaa; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Private Script Access</span>
+        </div>
+        <h1>Script 1.0</h1>
+        <p style="color: #aaa; max-width: 500px; margin: 0 auto;">
+            Система заробітку без води. Ти отримуєш конкретний алгоритм дій, який приносить результат вже в перший день.
+        </p>
+
+        <div class="product-card">
+            <h3 style="margin-bottom: 15px;">Пакет "Start"</h3>
+            <ul style="text-align: left; list-style: none; margin-bottom: 20px; color: #ddd;">
+                <li>✅ Покроковий PDF мануал</li>
+                <li>✅ Доступ до закритих текстів</li>
+                <li>✅ Підтримка 24/7</li>
+                <li>✅ Оновлення схеми</li>
+            </ul>
+            <div class="price-tag">
+                <span class="old-price">950 ₴</span> 385 ₴
+            </div>
+            <p style="font-size: 0.8rem; color: var(--accent);">*Ціна актуальна поки йде таймер</p>
+        </div>
+
+        <a href="https://send.monobank.ua/jar/4R97AcgSWm?a=385" class="btn-main">ЗАБРАТИ ДОСТУП</a>
+        
+        <div style="margin-top: 20px; font-size: 0.85rem; color: #666;">
+            🔒 Безпечна оплата через Monobank
+        </div>
+    </header>
+
+    <section>
+        <h2 style="text-align: center; margin-bottom: 40px;">Що всередині?</h2>
+        <div class="grid">
+            <div class="feature-box">
+                <h3>🚀 1. Швидкість</h3>
+                <p style="color: #aaa;">Не треба вчитися місяцями. Прочитав інструкцію — повторив — отримав результат.</p>
+            </div>
+            <div class="feature-box">
+                <h3>📱 2. Простота</h3>
+                <p style="color: #aaa;">Потрібен лише телефон та доступ до інтернету. Працюй з будь-якої точки світу.</p>
+            </div>
+            <div class="feature-box">
+                <h3>💸 3. Результат</h3>
+                <p style="color: #aaa;">Схема перевірена на практиці. Вже понад 100 людей отримали свої перші виплати.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 style="text-align: center; margin-bottom: 30px;">Питання та відповіді</h2>
+        <div class="faq-item">
+            <div class="faq-question">Це легально? <span>+</span></div>
+            <div class="faq-answer">Так, повністю. Це робота з трафіком та обробкою заявок. Ніякого скаму.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Скільки часу займе? <span>+</span></div>
+            <div class="faq-answer">Новачки витрачають близько 1-2 годин на день.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Що робити після оплати? <span>+</span></div>
+            <div class="faq-answer">В описі банки (або після оплати) ти отримаєш посилання на завантаження матеріалів.</div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 50px; border-top: 1px solid #222; color: #555; font-size: 0.8rem;">
+        <p>Script 1.0 © 2026. Всі права захищено.</p>
+    </footer>
+
+    <div class="notification" id="notif">
+        <div style="font-size: 1.5rem;">🔥</div>
+        <div>
+            <div style="font-weight: bold; font-size: 0.9rem;">Нова покупка!</div>
+            <div style="font-size: 0.8rem; color: #aaa;">Максим щойно придбав доступ</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ
+        let time = 900; // 15 хвилин у секундах
+        const timerElement = document.getElementById('timer');
+
+        setInterval(() => {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timerElement.innerText = `${minutes}:${seconds}`;
+            time = time > 0 ? time - 1 : 900; // Якщо 0, починаємо знову
+        }, 1000);
+
+        // 2. АКОРДЕОН (FAQ)
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                item.parentElement.classList.toggle('active');
+            });
+        });
+
+        // 3. ФЕЙКОВІ СПОВІЩЕННЯ
+        const names = ['Олександр', 'Марина', 'Андрій', 'Вікторія', 'Дмитро'];
+        const notif = document.getElementById('notif');
+        
+        function showNotify() {
+            const name = names[Math.floor(Math.random() * names.length)];
+            notif.querySelector('div:last-child div:last-child').innerText = `${name} щойно придбав доступ`;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 4000);
+        }
+        setInterval(showNotify, 12000); // Кожні 12 секунд
+    </script>
+</body>
+</html>
